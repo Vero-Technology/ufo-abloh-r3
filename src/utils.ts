@@ -775,6 +775,37 @@ export function withoutFragment(input: string): string {
 }
 
 /**
+ * Removes the query section from the URL, or only the named parameters when `keys` is given.
+ *
+ * @example
+ *
+ * ```js
+ * withoutQuery("http://example.com/foo?a=1&b=2#bar")
+ * // Returns "http://example.com/foo#bar"
+ *
+ * withoutQuery("http://example.com/foo?a=1&b=2", ["a"])
+ * // Returns "http://example.com/foo?b=2"
+ * ```
+ *
+ * @group utils
+ */
+export function withoutQuery(input: string, keys?: string[]): string {
+  const parsed = parseURL(input);
+  if (!keys || keys.length === 0) {
+    return stringifyParsedURL({ ...parsed, search: "" });
+  }
+  const query = parseQuery(parsed.search);
+  for (const key of keys) {
+    delete query[key];
+  }
+  const search = stringifyQuery(query);
+  return stringifyParsedURL({
+    ...parsed,
+    search: search ? `?${search}` : "",
+  });
+}
+
+/**
  * Removes the host from the URL while preserving everything else.
  *
  * @example
