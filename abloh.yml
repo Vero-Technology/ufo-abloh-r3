@@ -20,3 +20,5 @@ environment:
   setup: .abloh/setup.sh # written by init and yours to edit. Every cold run executes it step by step
   testCommand: corepack pnpm test # scripts.test in package.json
   sealedTestCommand: npx --no-install vitest run --typecheck --reporter=json # runs vitest alone; scripts.test is gated by lint
+  rewrittenFiles: # your own build (automd, in pnpm build) rewrites these tracked files
+    - README.md
