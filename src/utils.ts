@@ -315,6 +315,22 @@ export function withBase(input: string, base: string) {
  *
  * @group utils
  */
+/**
+ * Whether a URL's path is under a given prefix, treating "/a" and "/a/" alike.
+ * Used to decide if a redirect stays inside the same section of a site.
+ */
+export function isUnderPath(input: string, prefix: string): boolean {
+  if (!prefix || prefix === "/") {
+    return true;
+  }
+  const _prefix = withoutTrailingSlash(prefix);
+  if (!input.startsWith(_prefix)) {
+    return false;
+  }
+  const nextChar = input[_prefix.length];
+  return !nextChar || nextChar === "/" || nextChar === "?";
+}
+
 export function withoutBase(input: string, base: string) {
   if (isEmptyURL(base)) {
     return input;

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { withBase, withoutBase } from "../src";
+import { withBase, withoutBase, isUnderPath } from "../src";
 
 describe("withBase", () => {
   const tests = [
@@ -74,4 +74,10 @@ describe("withoutBase", () => {
       expect(withoutBase(t.input, t.base)).toBe(t.out);
     });
   }
+});
+
+describe("isUnderPath", () => {
+  test("says yes for a path under the prefix", () => {
+    expect(isUnderPath("/docs/intro", "/docs")).toBe(true);
+  });
 });
